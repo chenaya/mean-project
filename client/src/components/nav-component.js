@@ -67,12 +67,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
                 )}
                 {currentUser && (
                   <li className="nav-item">
-                    <Link
-                      onClick={handleLogout}
-                      className="nav-link"
-                      to="/"
-                      onClick={handleCollapse}
-                    >
+                    <Link onClick={handleLogout} className="nav-link" to="/">
                       登出
                     </Link>
                   </li>

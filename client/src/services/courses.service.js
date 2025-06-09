@@ -2,13 +2,19 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/api/courses";
 
 class CourseService {
-  post(title, description, price) {
+  getToken() {
     let token;
     if (localStorage.getItem("user")) {
       token = JSON.parse(localStorage.getItem("user")).token;
     } else {
       token = "";
     }
+    return token;
+  }
+
+  post(title, description, price) {
+    let token = this.getToken();
+
     return axios.post(
       API_URL,
       { title, description, price },
@@ -19,12 +25,7 @@ class CourseService {
   }
 
   getEnrolledCourse(_id) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
 
     return axios.get(API_URL + "/student/" + _id, {
       headers: { Authorization: token },
@@ -32,12 +33,7 @@ class CourseService {
   }
 
   get(_id) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
 
     return axios.get(API_URL + "/instructor/" + _id, {
       headers: { Authorization: token },
@@ -45,12 +41,7 @@ class CourseService {
   }
 
   getCourseById(_id) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
 
     return axios.get(API_URL + "/" + _id, {
       headers: { Authorization: token },
@@ -58,12 +49,7 @@ class CourseService {
   }
 
   getCourseByName(name) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
 
     return axios.get(API_URL + "/findByName/" + name, {
       headers: { Authorization: token },
@@ -71,12 +57,8 @@ class CourseService {
   }
 
   enroll(_id) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
+
     return axios.post(
       API_URL + "/enroll/" + _id,
       {},
@@ -87,12 +69,8 @@ class CourseService {
   }
 
   updateCourse(_id, data) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
+
     // data=>更新後的資料
     return axios.patch(API_URL + "/updateCourse/" + _id, data, {
       headers: { Authorization: token },
@@ -100,24 +78,15 @@ class CourseService {
   }
 
   deleteCourse(_id) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
+
     return axios.delete(API_URL + "/" + _id, {
       headers: { Authorization: token },
     });
   }
 
   unenroll(courseId, studentId) {
-    let token;
-    if (localStorage.getItem("user")) {
-      token = JSON.parse(localStorage.getItem("user")).token;
-    } else {
-      token = "";
-    }
+    let token = this.getToken();
 
     return axios.put(
       API_URL + "/unenroll/" + courseId,

@@ -16,8 +16,13 @@ const EnrollComponent = (props) => {
   const handleSearch = () => {
     CourseService.getCourseByName(searchInput)
       .then((data) => {
-        console.log(data);
-        setSearchResult(data.data);
+        if (data.data && data.data.length > 0) {
+          setSearchResult(data.data);
+        } else {
+          alert("無相關課程");
+          setSearchResult([]); // 清空搜尋結果
+          setSearchInput("");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -62,6 +67,7 @@ const EnrollComponent = (props) => {
             onChange={handleChangeInput}
             type="text"
             className="form-control"
+            value={searchInput}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSearch();
